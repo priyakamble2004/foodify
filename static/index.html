@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Foodify</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>🥗 Foodify</h1>
+    <p id="welcome"></p>
+    <a href="/logout">Log out</a>
+  </header>
+
+  <nav>
+    <button type="button" class="tab" data-tab="scan">🔍 Foods</button>
+    <button type="button" class="tab" data-tab="compare">⚖️ Compare</button>
+    <button type="button" class="tab" data-tab="meal">🍽️ Build a meal</button>
+  </nav>
+
+  <main>
+    <section id="scan">
+      <h2>Look up a food</h2>
+      <label for="search">Food name</label>
+      <input id="search" type="search" placeholder="Try: dosa, apple, dal">
+      <div id="detail"></div>
+      <div id="results"></div>
+      <div id="recent"></div>
+    </section>
+
+    <section id="compare">
+      <h2>Compare two foods</h2>
+      <label for="foodA">First food</label>
+      <select id="foodA"></select>
+      <label for="foodB">Second food</label>
+      <select id="foodB"></select>
+      <div id="compareResult"></div>
+    </section>
+
+    <section id="meal">
+      <h2>Build your meal</h2>
+      <p>Tap foods to add them to your plate.</p>
+      <div class="chips" id="mealChips"></div>
+      <div id="mealResult"></div>
+    </section>
+  </main>
+
+  <footer>
+    <small>Educational only, not medical advice. Values are approximate.</small>
+  </footer>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

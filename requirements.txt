@@ -1,0 +1,6 @@
+flask==3.0.3
+flask-sqlalchemy==3.1.1
+sqlalchemy>=2.0.16,<2.1
+pymysql==1.1.1
+cryptography>=42
+gunicorn==23.0.0

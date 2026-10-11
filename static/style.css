@@ -1,0 +1,107 @@
+:root {
+  --bg: #120a24;
+  --card: #20113c;
+  --ink: #fff4fb;
+  --line: #41296f;
+  --pink: #ff3d9a;
+  --lime: #b6ff3b;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 16px;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+a { color: var(--lime); }
+h1 { color: var(--pink); margin: 0; }
+h2 { color: var(--lime); margin-top: 0; }
+header { text-align: center; }
+
+/* Buttons and tabs */
+nav { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 16px 0; }
+
+button {
+  background: transparent;
+  color: var(--ink);
+  border: 2px solid var(--pink);
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+button:hover, button.on { background: var(--pink); color: var(--bg); }
+
+/* Boxes: only the active section is shown */
+main section { display: none; }
+main section.active { display: block; }
+
+section, .box {
+  background: var(--card);
+  border: 2px solid var(--lime);
+  border-radius: 18px;
+  padding: 18px;
+  max-width: 640px;
+  margin: 0 auto 16px;
+}
+
+/* Forms */
+label { display: block; margin-top: 12px; font-weight: bold; }
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border-radius: 10px;
+  border: 2px solid var(--line);
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+/* Cards, chips, notes */
+.card {
+  background: var(--bg);
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  padding: 12px;
+  margin-top: 12px;
+  cursor: pointer;
+}
+.card:hover { border-color: var(--pink); }
+.card h3 { margin: 0; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.chip.on { background: var(--lime); border-color: var(--lime); color: var(--bg); }
+
+.note {
+  background: var(--bg);
+  border-left: 6px solid var(--lime);
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin: 8px 0;
+}
+
+/* Nutrition bars */
+.row { display: grid; grid-template-columns: 80px 1fr 90px; gap: 8px; align-items: center; margin: 8px 0; }
+.track { height: 12px; background: var(--line); border-radius: 9px; overflow: hidden; }
+.fill { height: 100%; background: var(--lime); }
+
+table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+td, th { padding: 6px; text-align: left; border-bottom: 1px solid var(--line); }
+
+/* Login page */
+.auth-page { display: flex; align-items: center; justify-content: center; min-height: 100vh; text-align: center; }
+.auth-page .box { max-width: 380px; width: 100%; border-color: var(--pink); }
+.auth-page .chips { justify-content: center; }
+#authError { color: var(--pink); min-height: 1.5em; }
+
+@media (max-width: 520px) {
+  body { padding: 10px; }
+  .row { grid-template-columns: 64px 1fr 80px; }
+}
