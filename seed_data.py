@@ -25,7 +25,7 @@ FOODS = [
     ("idli", "🍘", "Idli", "grain", "v", "2 pieces", 80, 120, 4, 24, 0.5, 1.5, 0.5, 180),
     ("dosa", "🥞", "Plain dosa", "grain", "v", "1 medium", 90, 135, 3.5, 24, 2.8, 1, 0.5, 190),
     ("bread", "🍞", "Whole wheat bread", "grain", "v", "1 slice", 28, 70, 3.6, 12, 1, 1.9, 1.4, 130),
-    ("makhana", "🍿", "Roasted makhana", "grain", "v", "30 g", 30, 110, 3, 21, 1.5, 1, 0.3, 5),
+    ("makhana", "🍿", "Roasted makhana", "grain", "v", "30 g", 30, 110, 3, 23, 0.5, 3, 0.3, 5),
     ("dal", "🍲", "Dal", "protein", "v", "1 bowl", 150, 180, 10, 28, 3, 7, 2, 300),
     ("rajma", "🫘", "Rajma curry", "protein", "v", "1 bowl", 150, 200, 12, 30, 3.5, 9, 3, 320),
     ("chana", "🫘", "Boiled chana", "protein", "v", "1 cup", 164, 269, 14.5, 45, 4.2, 12.5, 8, 11),
@@ -49,7 +49,7 @@ FOODS = [
     ("jalebi", "🍥", "Jalebi", "other", "v", "50 g", 50, 220, 1.5, 35, 8, 0, 25, 15),
     ("icecream", "🍦", "Ice cream", "other", "v", "1 scoop", 66, 137, 2.3, 16, 7.3, 0.5, 14, 53),
     ("chocolate", "🍫", "Milk chocolate", "other", "v", "1 small bar", 40, 214, 3.1, 23.6, 12, 1.4, 21, 24),
-    ("noodles", "🍜", "Instant noodles", "other", "v", "1 packet cooked", 85, 330, 7, 50, 12, 2, 2, 1100),
+    ("noodles", "🍜", "Instant noodles", "other", "v", "1 packet (85 g, before cooking)", 85, 330, 7, 50, 12, 2, 2, 1100),
     ("biryani", "🍛", "Chicken biryani", "other", "nv", "1 plate", 250, 430, 20, 52, 15, 2, 2, 800),
 ]
 

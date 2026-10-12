@@ -131,6 +131,11 @@ $("foodB").innerHTML = options;
 $("foodA").value = "chips";
 $("foodB").value = "makhana";
 
+const round1 = x => Math.round(x * 10) / 10;
+
+// One nutrient of one food: per serving, or scaled to 100 g so food size does not matter.
+const amount = (food, key, per100) => per100 ? food[key] * 100 / food.grams : food[key];
+
 function compare() {
   const a = find($("foodA").value);
   const b = find($("foodB").value);
@@ -138,22 +143,58 @@ function compare() {
     $("compareResult").innerHTML = "<p>Pick two different foods.</p>";
     return;
   }
-  const rows = nutrients.map(n =>
-    `<tr><td>${n.label}</td><td>${a[n.key]} ${n.unit}</td><td>${b[n.key]} ${n.unit}</td></tr>`).join("");
-  const notes = nutrients.filter(n => a[n.key] !== b[n.key]).map(n => {
-    const more = a[n.key] > b[n.key] ? a : b;
-    return `<p class="note">${esc(more.name)} has more ${n.label.toLowerCase()}.</p>`;
+  const per100 = $("basis").value === "100";
+  const get = (food, n) => amount(food, n.key, per100);   // not rounded yet, so differences stay exact
+
+  // First row: how much food each column is about.
+  const sizeRow = per100
+    ? "<tr><td>Amount</td><td>100 g</td><td>100 g</td><td></td></tr>"
+    : `<tr><td>Serving</td><td>${esc(a.serving)} (${a.grams} g)</td><td>${esc(b.serving)} (${b.grams} g)</td><td></td></tr>`;
+
+  // One row per nutrient, with the exact difference and who has more.
+  const rows = nutrients.map(n => {
+    const x = get(a, n);
+    const y = get(b, n);
+    const gap = round1(Math.abs(x - y));
+    let difference = "Same";
+    if (gap > 0) {
+      const more = x > y ? a : b;
+      difference = `${esc(more.emoji)} +${gap} ${n.unit}`;
+    }
+    return `<tr><td>${n.label}</td><td>${round1(x)} ${n.unit}</td><td>${round1(y)} ${n.unit}</td><td>${difference}</td></tr>`;
   }).join("");
+
+  // Plain sentences with the exact numbers, for the nutrients people ask about most.
+  const notes = nutrients.filter(n => ["kcal", "protein", "fiber", "sugar", "sodium"].includes(n.key)).map(n => {
+    const x = get(a, n);
+    const y = get(b, n);
+    const gap = round1(Math.abs(x - y));
+    if (gap === 0) {
+      return "";
+    }
+    const more = x > y ? a : b;
+    const less = more === a ? b : a;
+    return `<p class="note">${esc(more.name)} has ${gap} ${n.unit} more ${n.label.toLowerCase()}
+            than ${esc(less.name)} (${round1(Math.max(x, y))} vs ${round1(Math.min(x, y))}).</p>`;
+  }).join("");
+
+  const advice = per100
+    ? "Both foods are scaled to 100 g, so the size of the serving does not matter."
+    : "Servings can weigh different amounts, so a bigger serving can look worse. Switch to 100 g for a fair size comparison.";
+
   $("compareResult").innerHTML = `
     <table>
-      <tr><th></th><th>${esc(a.emoji)} ${esc(a.name)}</th><th>${esc(b.emoji)} ${esc(b.name)}</th></tr>
+      <tr><th></th><th>${esc(a.emoji)} ${esc(a.name)}</th><th>${esc(b.emoji)} ${esc(b.name)}</th><th>Who has more</th></tr>
+      ${sizeRow}
       ${rows}
     </table>
-    ${notes}`;
+    ${notes}
+    <p><small>${advice} No food is simply good or bad.</small></p>`;
 }
 
 $("foodA").addEventListener("change", compare);
 $("foodB").addEventListener("change", compare);
+$("basis").addEventListener("change", compare);
 compare();
 
 /* ---------- Build a meal tab ---------- */
