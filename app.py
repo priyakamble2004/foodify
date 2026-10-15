@@ -19,9 +19,13 @@ if db_url.startswith("mysql") and "charset" not in db_url:
 app.config["SQLALCHEMY_DATABASE_URI"] = db_url
 if db_url.startswith("mysql"):
     # Free hosted MySQL allows only a few connections, so keep the pool small.
-    app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
-        "pool_size": 2, "max_overflow": 0, "pool_recycle": 280, "pool_pre_ping": True,
-    }
+    options = {"pool_size": 2, "max_overflow": 0, "pool_recycle": 280, "pool_pre_ping": True}
+    # Many cloud MySQL services require an encrypted connection.
+    if os.getenv("DB_SSL_CA"):                      # path to the provider's CA certificate (checks the server)
+        options["connect_args"] = {"ssl": {"ca": os.getenv("DB_SSL_CA")}}
+    elif os.getenv("DB_SSL") == "1":                # encrypt, without checking the server's certificate
+        options["connect_args"] = {"ssl": {"fake_flag_to_enable_tls": True}}
+    app.config["SQLALCHEMY_ENGINE_OPTIONS"] = options
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "dev-secret-change-me")
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 app.config["SESSION_COOKIE_SECURE"] = os.getenv("SESSION_COOKIE_SECURE") == "1"
@@ -67,7 +71,8 @@ def logout():
 # ---------- Health ----------
 @app.get("/api/health")
 def health():
-    return jsonify(status="ok")
+    # "database" shows which kind is in use, so you can tell if the cloud database is really connected.
+    return jsonify(status="ok", database="mysql" if db_url.startswith("mysql") else "sqlite")
 
 
 # ---------- Foods ----------
